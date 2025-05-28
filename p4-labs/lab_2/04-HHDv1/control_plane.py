@@ -15,3 +15,8 @@ for switch, data in topo.get_p4rtswitches().items():
 controller = controllers['s1']                        
 
 # TODO: write the forwarding rules for the switch
+controller.table_clear('hhd_threshold')
+
+controller.table_add('hhd_threshold', 'set_hhd_threshold', ['10.0.0.1/32'], ['100'])
+controller.table_add('hhd_threshold', 'set_hhd_threshold', ['10.0.0.2/32'], ['1000'])
+controller.table_add('hhd_threshold', 'set_hhd_threshold', ['10.0.0.3/32'], ['300'])

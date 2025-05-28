@@ -9,7 +9,7 @@ from scapy.all import sniff, get_if_list, Ether, get_if_hwaddr, IP, Raw
 def get_if():
     iface=None
     for i in get_if_list():
-        if "eth0" in i:
+        if "eth" in i:
             iface=i
             break
     if not iface:

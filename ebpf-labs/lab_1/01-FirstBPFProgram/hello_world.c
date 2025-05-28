@@ -94,7 +94,7 @@ int main(int argc, const char **argv) {
 
     /* Load and verify BPF programs */
     if (hello_world_bpf__load(skel)) {
-        log_fatal("Error while loading BPF skeleton");
+        log_fatal("Error while loading BPF program");
         exit(1);
     }
 

@@ -1,0 +1,33 @@
+Warning: you requested the nanomsg event logger, but bmv2 was compiled without -DBMELOG, and the event logger cannot be activated
+Calling target program-options parser
+[14:21:06.021] [bmv2] [D] [thread 7061] Set default default entry for table 'tbl_packet_reflector61': packet_reflector61 - 
+Adding interface s1-eth1 as port 1
+[14:21:06.022] [bmv2] [D] [thread 7061] Adding interface s1-eth1 as port 1
+[14:21:06.047] [bmv2] [I] [thread 7061] Starting Thrift server on port 9090
+[14:21:06.048] [bmv2] [I] [thread 7061] Thrift server was started
+[14:24:21.152] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Processing packet received on port 1
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Parser 'parser': start
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Extracting header 'ethernet'
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Parser state 'start' has no switch, going to default next state
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] Bytes parsed: 14
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Parser 'parser': end
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Pipeline 'ingress': start
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] Applying table 'tbl_packet_reflector61'
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Looking up key:
+
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Table 'tbl_packet_reflector61': miss
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Action entry is packet_reflector61 - 
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] Action packet_reflector61
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/01-PacketReflector/packet_reflector.p4(61) Primitive bit<48> tmpAddr = hdr.ethernet.srcAddr;
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/01-PacketReflector/packet_reflector.p4(62) Primitive hdr.ethernet.srcAddr = hdr.ethernet.dstAddr
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/01-PacketReflector/packet_reflector.p4(63) Primitive hdr.ethernet.dstAddr = tmpAddr
+[14:24:21.160] [bmv2] [T] [thread 7067] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/01-PacketReflector/packet_reflector.p4(66) Primitive standard_metadata.egress_spec = standard_metadata.ingress_port
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Pipeline 'ingress': end
+[14:24:21.160] [bmv2] [D] [thread 7067] [0.0] [cxt 0] Egress port is 1
+[14:24:21.160] [bmv2] [D] [thread 7069] [0.0] [cxt 0] Pipeline 'egress': start
+[14:24:21.160] [bmv2] [D] [thread 7069] [0.0] [cxt 0] Pipeline 'egress': end
+[14:24:21.160] [bmv2] [D] [thread 7069] [0.0] [cxt 0] Deparser 'deparser': start
+[14:24:21.160] [bmv2] [D] [thread 7069] [0.0] [cxt 0] Deparsing header 'ethernet'
+[14:24:21.160] [bmv2] [D] [thread 7069] [0.0] [cxt 0] Deparser 'deparser': end
+[14:24:21.160] [bmv2] [D] [thread 7072] [0.0] [cxt 0] Transmitting packet of size 34 out of port 1

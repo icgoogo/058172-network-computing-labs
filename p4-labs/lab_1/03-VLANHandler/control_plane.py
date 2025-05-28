@@ -12,6 +12,19 @@ for switch, data in topo.get_p4rtswitches().items():
                                                   p4rt_path=data['p4rt_path'],
                                                   json_path=data['json_path'])
 
-controller = controllers['s1']                        
+controller = controllers['s1']    
 
 # TODO: write the forwarding rules for the switch
+controller.table_clear('vlan_table')
+
+controller.table_add('vlan_table', 'forward', ['2'], ['2'])
+controller.table_add('vlan_table', 'forward', ['20'], ['2'])
+controller.table_add('vlan_table', 'forward', ['3'], ['3'])
+controller.table_add('vlan_table', 'forward', ['30'], ['3'])
+controller.table_add('vlan_table', 'forward', ['4'], ['4'])
+controller.table_add('vlan_table', 'forward', ['40'], ['4'])
+
+controller.table_clear('port_to_vlan')
+controller.table_add('port_to_vlan', 'add_vlan_hdr', ['2'], ['2'])
+controller.table_add('port_to_vlan', 'add_vlan_hdr', ['3'], ['3'])
+controller.table_add('port_to_vlan', 'add_vlan_hdr', ['4'], ['4'])

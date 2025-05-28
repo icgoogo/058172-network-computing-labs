@@ -14,16 +14,30 @@
 
 /* This is the data record stored in the map */
 /* TODO 9: Define map and structure to hold packet and byte counters */
+struct datarec
+{
+   __u64 rx_packets;
+   __u64 rx_bytes;
+};
 
-static __always_inline int parse_ethhdr(void *data, void *data_end, __u16 *nh_off, struct ethhdr **ethhdr) {
+struct
+{
+   __uint(type, BPF_MAP_TYPE_ARRAY);
+   __type(key, int);
+   __type(value, struct datarec);
+   __uint(max_entries, 1024);
+} xdp_stats_map SEC(".maps");
+
+static __always_inline int parse_ethhdr(void *data, void *data_end, __u16 *nh_off, struct ethhdr **ethhdr)
+{
    struct ethhdr *eth = (struct ethhdr *)data;
    int hdr_size = sizeof(*eth);
 
    /* Byte-count bounds check; check if current pointer + size of header
-	 * is after data_end.
-	 */
+    * is after data_end.
+    */
    /* TODO 1: Fix bound checking errors */
-   if (data + 1 > data_end)
+   if (eth + hdr_size > data_end)
       return -1;
 
    *nh_off += hdr_size;
@@ -33,25 +47,59 @@ static __always_inline int parse_ethhdr(void *data, void *data_end, __u16 *nh_of
 }
 
 /* TODO 3: Implement IP parsing function */
-// static __always_inline int parse_iphdr(void *data, void *data_end, __u16 *nh_off, struct iphdr **iphdr) {
-// }
+static __always_inline int parse_iphdr(void *data, void *data_end, __u16 *nh_off, struct iphdr **iphdr)
+{
+   struct iphdr *ip = data + *nh_off;
+   int hdr_size;
+
+   if ((void *)ip + sizeof(*ip) > data_end)
+      return -1;
+
+   hdr_size = ip->ihl * 4;
+
+   // sanity check packet field is valid
+   if (hdr_size < sizeof(*ip))
+      return -1;
+
+   if ((void *)ip + hdr_size > data_end)
+      return -1;
+
+   *nh_off += hdr_size;
+   *iphdr = ip;
+
+   return ip->protocol;
+}
 
 /* TODO 5: Implement ICMP parsing function */
-// static __always_inline int parse_icmphdr(void *data, void *data_end, __u16 *nh_off, struct icmphdr **icmphdr) {
-// }
+static __always_inline int parse_icmphdr(void *data, void *data_end, __u16 *nh_off, struct icmphdr **icmphdr)
+{
+   struct icmphdr *icmp = data + *nh_off;
+   int hdr_size = sizeof(*icmp);
+
+   if ((void *)icmp + hdr_size > data_end)
+      return -1;
+
+   *nh_off += hdr_size;
+   *icmphdr = icmp;
+
+   return icmp->type;
+}
 
 SEC("xdp")
-int xdp_packet_parsing(struct xdp_md *ctx) {
+int xdp_packet_parsing(struct xdp_md *ctx)
+{
    void *data_end = (void *)(long)ctx->data_end;
    void *data = (void *)(long)ctx->data;
 
-   __u16 nf_off = 0;
+   __u16 nh_off = 0;
    struct ethhdr *eth;
    int eth_type;
+   struct datarec *rec;
+   int key = 0;
 
    bpf_printk("Packet received");
 
-   eth_type = parse_ethhdr(data, data_end, &nf_off, &eth);
+   eth_type = parse_ethhdr(data, data_end, &nh_off, &eth);
 
    if (eth_type != bpf_ntohs(ETH_P_IP))
       goto pass;
@@ -59,20 +107,48 @@ int xdp_packet_parsing(struct xdp_md *ctx) {
    bpf_printk("Packet is IPv4");
 
    /* TODO 2: Parse IPv4 packet, pass all NON-ICMP packets */
+   int ip_type;
+   struct iphdr *iphdr;
+   ip_type = parse_iphdr(data, data_end, &nh_off, &iphdr);
 
+   if (ip_type != IPPROTO_ICMP)
+      goto pass;
+
+   bpf_printk("Packet is ICMP");
    /* TODO 4: Parse ICMP packet, pass all NON-ICMP ECHO packets */
    /* ICMP EHCO REPLY packets should goto pass */
+   int icmp_type;
+   struct icmphdr *icmphdr;
 
+   icmp_type = parse_icmphdr(data, data_end, &nh_off, &icmphdr);
+   bpf_printk("Packet is ICMP type: %d", icmp_type);
+   if (icmp_type != ICMP_ECHO)
+      goto out;
    /* TODO 6: Retrieve sequence number from ICMP packet */
-
-   /* TODO 7: Check if sequence number is even 
+   __u16 seq = bpf_ntohs(icmphdr->un.echo.sequence);
+   bpf_printk("Packet is ICMP ECHO with sequence number: %d", seq);
+   /* TODO 7: Check if sequence number is even
     * If even, drop packet
     * If odd, goto out, where packets and bytes are counted
     */
+   if (seq % 2 == 0)
+   {
+      bpf_printk("dropping packet with even sequence number: %d", seq);
+      return XDP_DROP;
+   }
 
 out:
    bpf_printk("Packet passed");
    /* TODO 8: Count packets and bytes and store them into an ARRAY map */
+   rec = bpf_map_lookup_elem(&xdp_stats_map, &key);
+   if (!rec)
+   {
+      return XDP_ABORTED;
+   }
+
+   __u64 bytes = data_end - data;
+   __sync_fetch_and_add(&rec->rx_packets, 1);
+   __sync_fetch_and_add(&rec->rx_bytes, 1);
 
 pass:
    return XDP_PASS;

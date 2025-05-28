@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "conntrack_bpf_log.h": "c",
+        "bpf.h": "c",
+        "conntrack_if_helper.h": "c",
+        "link.h": "c",
+        "conntrack_structs.h": "c"
+    }
+}

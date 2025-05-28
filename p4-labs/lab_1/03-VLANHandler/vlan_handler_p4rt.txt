@@ -1,0 +1,87 @@
+# proto-file: p4/config/v1/p4info.proto
+# proto-message: p4.config.v1.P4Info
+
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 40480653
+    name: "MyIngress.vlan_table"
+    alias: "vlan_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.vlan.vid"
+    bitwidth: 12
+    match_type: EXACT
+  }
+  action_refs {
+    id: 21257015
+  }
+  action_refs {
+    id: 29683729
+  }
+  size: 1024
+}
+tables {
+  preamble {
+    id: 41002235
+    name: "MyIngress.port_to_vlan"
+    alias: "port_to_vlan"
+  }
+  match_fields {
+    id: 1
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 25652968
+  }
+  action_refs {
+    id: 27553963
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 25652968
+    name: "MyIngress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 29683729
+    name: "MyIngress.forward"
+    alias: "forward"
+  }
+  params {
+    id: 1
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 27553963
+    name: "MyIngress.add_vlan_hdr"
+    alias: "add_vlan_hdr"
+  }
+  params {
+    id: 1
+    name: "vid"
+    bitwidth: 12
+  }
+}
+type_info {
+}

@@ -1,0 +1,132 @@
+Warning: you requested the nanomsg event logger, but bmv2 was compiled without -DBMELOG, and the event logger cannot be activated
+Calling target program-options parser
+[17:02:59.224] [bmv2] [D] [thread 12209] Set default default entry for table 'MyIngress.repeater': NoAction - 
+Adding interface s1-eth1 as port 1
+[17:02:59.225] [bmv2] [D] [thread 12209] Adding interface s1-eth1 as port 1
+Adding interface s1-eth2 as port 2
+[17:02:59.267] [bmv2] [D] [thread 12209] Adding interface s1-eth2 as port 2
+Server listening on 0.0.0.0:9559
+[17:02:59.299] [bmv2] [I] [thread 12209] Starting Thrift server on port 9090
+[17:02:59.299] [bmv2] [I] [thread 12209] Thrift server was started
+[17:02:59.828] [bmv2] [D] [thread 12269] Set default default entry for table 'MyIngress.repeater': NoAction - 
+[17:02:59.831] [bmv2] [D] [thread 12269] simple_switch target has been notified of a config swap
+[17:02:59.838] [bmv2] [D] [thread 12277] Entry 0 added to table 'MyIngress.repeater'
+[17:02:59.838] [bmv2] [D] [thread 12277] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0001
+Action entry: MyIngress.forward - 2,
+
+[17:02:59.840] [bmv2] [D] [thread 12269] Entry 1 added to table 'MyIngress.repeater'
+[17:02:59.840] [bmv2] [D] [thread 12269] Dumping entry 1
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.forward - 1,
+
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Processing packet received on port 1
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Parser 'parser': start
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Parser state 'start' has no switch, going to default next state
+[17:03:28.080] [bmv2] [T] [thread 12218] [0.0] [cxt 0] Bytes parsed: 0
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Parser 'parser': end
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Pipeline 'ingress': start
+[17:03:28.080] [bmv2] [T] [thread 12218] [0.0] [cxt 0] Applying table 'MyIngress.repeater'
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0001
+
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Table 'MyIngress.repeater': hit with handle 0
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0001
+Action entry: MyIngress.forward - 2,
+
+[17:03:28.080] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Action entry is MyIngress.forward - 2,
+[17:03:28.081] [bmv2] [T] [thread 12218] [0.0] [cxt 0] Action MyIngress.forward
+[17:03:28.081] [bmv2] [T] [thread 12218] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/02-PacketRepeater/packet_repeater.p4(46) Primitive standard_metadata.egress_spec = egress_port
+[17:03:28.081] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Pipeline 'ingress': end
+[17:03:28.081] [bmv2] [D] [thread 12218] [0.0] [cxt 0] Egress port is 2
+[17:03:28.081] [bmv2] [D] [thread 12221] [0.0] [cxt 0] Pipeline 'egress': start
+[17:03:28.081] [bmv2] [D] [thread 12221] [0.0] [cxt 0] Pipeline 'egress': end
+[17:03:28.081] [bmv2] [D] [thread 12221] [0.0] [cxt 0] Deparser 'deparser': start
+[17:03:28.081] [bmv2] [D] [thread 12221] [0.0] [cxt 0] Deparser 'deparser': end
+[17:03:28.081] [bmv2] [D] [thread 12223] [0.0] [cxt 0] Transmitting packet of size 43 out of port 2
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Processing packet received on port 2
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Parser 'parser': start
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Parser 'parser' entering state 'start'
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Parser state 'start' has no switch, going to default next state
+[17:03:28.081] [bmv2] [T] [thread 12218] [1.0] [cxt 0] Bytes parsed: 0
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Parser 'parser': end
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Pipeline 'ingress': start
+[17:03:28.081] [bmv2] [T] [thread 12218] [1.0] [cxt 0] Applying table 'MyIngress.repeater'
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0002
+
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Table 'MyIngress.repeater': hit with handle 1
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Dumping entry 1
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.forward - 1,
+
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Action entry is MyIngress.forward - 1,
+[17:03:28.081] [bmv2] [T] [thread 12218] [1.0] [cxt 0] Action MyIngress.forward
+[17:03:28.081] [bmv2] [T] [thread 12218] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/02-PacketRepeater/packet_repeater.p4(46) Primitive standard_metadata.egress_spec = egress_port
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Pipeline 'ingress': end
+[17:03:28.081] [bmv2] [D] [thread 12218] [1.0] [cxt 0] Egress port is 1
+[17:03:28.081] [bmv2] [D] [thread 12220] [1.0] [cxt 0] Pipeline 'egress': start
+[17:03:28.082] [bmv2] [D] [thread 12220] [1.0] [cxt 0] Pipeline 'egress': end
+[17:03:28.082] [bmv2] [D] [thread 12220] [1.0] [cxt 0] Deparser 'deparser': start
+[17:03:28.082] [bmv2] [D] [thread 12220] [1.0] [cxt 0] Deparser 'deparser': end
+[17:03:28.082] [bmv2] [D] [thread 12223] [1.0] [cxt 0] Transmitting packet of size 71 out of port 1
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Processing packet received on port 2
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Parser 'parser': start
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Parser 'parser' entering state 'start'
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Parser state 'start' has no switch, going to default next state
+[17:05:36.492] [bmv2] [T] [thread 12218] [2.0] [cxt 0] Bytes parsed: 0
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Parser 'parser': end
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Pipeline 'ingress': start
+[17:05:36.492] [bmv2] [T] [thread 12218] [2.0] [cxt 0] Applying table 'MyIngress.repeater'
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0002
+
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Table 'MyIngress.repeater': hit with handle 1
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Dumping entry 1
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.forward - 1,
+
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Action entry is MyIngress.forward - 1,
+[17:05:36.492] [bmv2] [T] [thread 12218] [2.0] [cxt 0] Action MyIngress.forward
+[17:05:36.492] [bmv2] [T] [thread 12218] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/02-PacketRepeater/packet_repeater.p4(46) Primitive standard_metadata.egress_spec = egress_port
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Pipeline 'ingress': end
+[17:05:36.492] [bmv2] [D] [thread 12218] [2.0] [cxt 0] Egress port is 1
+[17:05:36.492] [bmv2] [D] [thread 12220] [2.0] [cxt 0] Pipeline 'egress': start
+[17:05:36.492] [bmv2] [D] [thread 12220] [2.0] [cxt 0] Pipeline 'egress': end
+[17:05:36.492] [bmv2] [D] [thread 12220] [2.0] [cxt 0] Deparser 'deparser': start
+[17:05:36.492] [bmv2] [D] [thread 12220] [2.0] [cxt 0] Deparser 'deparser': end
+[17:05:36.492] [bmv2] [D] [thread 12223] [2.0] [cxt 0] Transmitting packet of size 42 out of port 1
+[17:05:36.492] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Processing packet received on port 1
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Parser 'parser': start
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Parser 'parser' entering state 'start'
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Parser state 'start' has no switch, going to default next state
+[17:05:36.493] [bmv2] [T] [thread 12218] [3.0] [cxt 0] Bytes parsed: 0
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Parser 'parser': end
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Pipeline 'ingress': start
+[17:05:36.493] [bmv2] [T] [thread 12218] [3.0] [cxt 0] Applying table 'MyIngress.repeater'
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0001
+
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Table 'MyIngress.repeater': hit with handle 0
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0001
+Action entry: MyIngress.forward - 2,
+
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Action entry is MyIngress.forward - 2,
+[17:05:36.493] [bmv2] [T] [thread 12218] [3.0] [cxt 0] Action MyIngress.forward
+[17:05:36.493] [bmv2] [T] [thread 12218] [3.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/02-PacketRepeater/packet_repeater.p4(46) Primitive standard_metadata.egress_spec = egress_port
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Pipeline 'ingress': end
+[17:05:36.493] [bmv2] [D] [thread 12218] [3.0] [cxt 0] Egress port is 2
+[17:05:36.493] [bmv2] [D] [thread 12221] [3.0] [cxt 0] Pipeline 'egress': start
+[17:05:36.493] [bmv2] [D] [thread 12221] [3.0] [cxt 0] Pipeline 'egress': end
+[17:05:36.493] [bmv2] [D] [thread 12221] [3.0] [cxt 0] Deparser 'deparser': start
+[17:05:36.493] [bmv2] [D] [thread 12221] [3.0] [cxt 0] Deparser 'deparser': end
+[17:05:36.493] [bmv2] [D] [thread 12223] [3.0] [cxt 0] Transmitting packet of size 70 out of port 2

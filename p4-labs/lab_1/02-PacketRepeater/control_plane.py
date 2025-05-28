@@ -3,7 +3,6 @@
 from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_p4runtime_API import SimpleSwitchP4RuntimeAPI
 
-
 topo = load_topo('topology.json')
 controllers = {}
 
@@ -15,3 +14,6 @@ for switch, data in topo.get_p4rtswitches().items():
 controller = controllers['s1']                        
 
 # TODO: write the forwarding rules for the switch
+controller.table_clear('repeater')
+controller.table_add('repeater', 'forward', ['1'], ['2'])
+controller.table_add('repeater', 'forward', ['2'], ['1'])

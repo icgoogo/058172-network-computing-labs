@@ -1,0 +1,268 @@
+Warning: you requested the nanomsg event logger, but bmv2 was compiled without -DBMELOG, and the event logger cannot be activated
+Calling target program-options parser
+[14:09:44.474] [bmv2] [D] [thread 7256] Set default default entry for table 'MyIngress.hhd_threshold': MyIngress.drop - 
+[14:09:44.474] [bmv2] [D] [thread 7256] Set default default entry for table 'tbl_hdd_v1l123': hdd_v1l123 - 
+[14:09:44.474] [bmv2] [D] [thread 7256] Set default default entry for table 'tbl_drop': MyIngress.drop - 
+[14:09:44.474] [bmv2] [D] [thread 7256] Set default default entry for table 'tbl_forward': MyIngress.forward - 
+[14:09:44.474] [bmv2] [D] [thread 7256] Set default default entry for table 'tbl_hdd_v1l131': hdd_v1l131 - 
+Adding interface s1-eth1 as port 1
+[14:09:44.476] [bmv2] [D] [thread 7256] Adding interface s1-eth1 as port 1
+Adding interface s1-eth2 as port 2
+[14:09:44.499] [bmv2] [D] [thread 7256] Adding interface s1-eth2 as port 2
+Adding interface s1-eth3 as port 3
+[14:09:44.543] [bmv2] [D] [thread 7256] Adding interface s1-eth3 as port 3
+Adding interface s1-eth4 as port 4
+[14:09:44.587] [bmv2] [D] [thread 7256] Adding interface s1-eth4 as port 4
+Server listening on 0.0.0.0:9559
+[14:09:44.631] [bmv2] [I] [thread 7256] Starting Thrift server on port 9090
+[14:09:44.632] [bmv2] [I] [thread 7256] Thrift server was started
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Processing packet received on port 1
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser 'parser': start
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Extracting header 'ethernet'
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:16.778] [bmv2] [T] [thread 7265] [0.0] [cxt 0] Bytes parsed: 14
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Extracting header 'ipv4'
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:16.778] [bmv2] [T] [thread 7265] [0.0] [cxt 0] Bytes parsed: 34
+[14:10:16.778] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Parser 'parser': end
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Pipeline 'ingress': start
+[14:10:16.779] [bmv2] [T] [thread 7265] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:16.779] [bmv2] [T] [thread 7265] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:16.779] [bmv2] [T] [thread 7265] [0.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:16.779] [bmv2] [T] [thread 7265] [0.0] [cxt 0] Action MyIngress.drop
+[14:10:16.779] [bmv2] [T] [thread 7265] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Pipeline 'ingress': end
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Egress port is 511
+[14:10:16.779] [bmv2] [D] [thread 7265] [0.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:16.818] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Processing packet received on port 1
+[14:10:16.818] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser 'parser': start
+[14:10:16.818] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:16.818] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Extracting header 'ethernet'
+[14:10:16.818] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:16.818] [bmv2] [T] [thread 7265] [1.0] [cxt 0] Bytes parsed: 14
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Extracting header 'ipv4'
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] Bytes parsed: 34
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Parser 'parser': end
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Pipeline 'ingress': start
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] Action MyIngress.drop
+[14:10:16.819] [bmv2] [T] [thread 7265] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:16.819] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Pipeline 'ingress': end
+[14:10:16.820] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Egress port is 511
+[14:10:16.820] [bmv2] [D] [thread 7265] [1.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Processing packet received on port 1
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser 'parser': start
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Extracting header 'ethernet'
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:16.870] [bmv2] [T] [thread 7265] [2.0] [cxt 0] Bytes parsed: 14
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Extracting header 'ipv4'
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:16.870] [bmv2] [T] [thread 7265] [2.0] [cxt 0] Bytes parsed: 34
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Parser 'parser': end
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Pipeline 'ingress': start
+[14:10:16.870] [bmv2] [T] [thread 7265] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:16.870] [bmv2] [T] [thread 7265] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:16.870] [bmv2] [T] [thread 7265] [2.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:16.870] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:16.871] [bmv2] [T] [thread 7265] [2.0] [cxt 0] Action MyIngress.drop
+[14:10:16.871] [bmv2] [T] [thread 7265] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:16.871] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Pipeline 'ingress': end
+[14:10:16.871] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Egress port is 511
+[14:10:16.871] [bmv2] [D] [thread 7265] [2.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Processing packet received on port 1
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser 'parser': start
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Extracting header 'ethernet'
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] Bytes parsed: 14
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Extracting header 'ipv4'
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] Bytes parsed: 34
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Parser 'parser': end
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Pipeline 'ingress': start
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:16.934] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] Action MyIngress.drop
+[14:10:16.934] [bmv2] [T] [thread 7265] [3.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:16.935] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Pipeline 'ingress': end
+[14:10:16.935] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Egress port is 511
+[14:10:16.935] [bmv2] [D] [thread 7265] [3.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Processing packet received on port 1
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser 'parser': start
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Extracting header 'ethernet'
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:16.974] [bmv2] [T] [thread 7265] [4.0] [cxt 0] Bytes parsed: 14
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Extracting header 'ipv4'
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:16.974] [bmv2] [T] [thread 7265] [4.0] [cxt 0] Bytes parsed: 34
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Parser 'parser': end
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Pipeline 'ingress': start
+[14:10:16.974] [bmv2] [T] [thread 7265] [4.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:16.974] [bmv2] [T] [thread 7265] [4.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:16.974] [bmv2] [T] [thread 7265] [4.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:16.974] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:16.975] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:16.975] [bmv2] [T] [thread 7265] [4.0] [cxt 0] Action MyIngress.drop
+[14:10:16.975] [bmv2] [T] [thread 7265] [4.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:16.975] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Pipeline 'ingress': end
+[14:10:16.975] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Egress port is 511
+[14:10:16.975] [bmv2] [D] [thread 7265] [4.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:17.027] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Processing packet received on port 1
+[14:10:17.027] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser 'parser': start
+[14:10:17.027] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:17.027] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Extracting header 'ethernet'
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] Bytes parsed: 14
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Extracting header 'ipv4'
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] Bytes parsed: 34
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Parser 'parser': end
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Pipeline 'ingress': start
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] Action MyIngress.drop
+[14:10:17.028] [bmv2] [T] [thread 7265] [5.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Pipeline 'ingress': end
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Egress port is 511
+[14:10:17.028] [bmv2] [D] [thread 7265] [5.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Processing packet received on port 1
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser 'parser': start
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Extracting header 'ethernet'
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:17.070] [bmv2] [T] [thread 7265] [6.0] [cxt 0] Bytes parsed: 14
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Extracting header 'ipv4'
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:17.070] [bmv2] [T] [thread 7265] [6.0] [cxt 0] Bytes parsed: 34
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Parser 'parser': end
+[14:10:17.070] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Pipeline 'ingress': start
+[14:10:17.071] [bmv2] [T] [thread 7265] [6.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:17.071] [bmv2] [T] [thread 7265] [6.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:17.071] [bmv2] [T] [thread 7265] [6.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:17.071] [bmv2] [T] [thread 7265] [6.0] [cxt 0] Action MyIngress.drop
+[14:10:17.071] [bmv2] [T] [thread 7265] [6.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Pipeline 'ingress': end
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Egress port is 511
+[14:10:17.071] [bmv2] [D] [thread 7265] [6.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:17.145] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Processing packet received on port 1
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser 'parser': start
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Extracting header 'ethernet'
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] Bytes parsed: 14
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Extracting header 'ipv4'
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] Bytes parsed: 34
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Parser 'parser': end
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Pipeline 'ingress': start
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] Action MyIngress.drop
+[14:10:17.146] [bmv2] [T] [thread 7265] [7.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:17.146] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Pipeline 'ingress': end
+[14:10:17.147] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Egress port is 511
+[14:10:17.147] [bmv2] [D] [thread 7265] [7.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Processing packet received on port 1
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser 'parser': start
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Extracting header 'ethernet'
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:17.198] [bmv2] [T] [thread 7265] [8.0] [cxt 0] Bytes parsed: 14
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:17.198] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Extracting header 'ipv4'
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] Bytes parsed: 34
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Parser 'parser': end
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Pipeline 'ingress': start
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] Action MyIngress.drop
+[14:10:17.199] [bmv2] [T] [thread 7265] [8.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Pipeline 'ingress': end
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Egress port is 511
+[14:10:17.199] [bmv2] [D] [thread 7265] [8.0] [cxt 0] Dropping packet at the end of ingress
+[14:10:17.245] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Processing packet received on port 1
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser 'parser': start
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser 'parser' entering state 'start'
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Extracting header 'ethernet'
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser state 'start': key is 0800
+[14:10:17.246] [bmv2] [T] [thread 7265] [9.0] [cxt 0] Bytes parsed: 14
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Extracting header 'ipv4'
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser state 'parse_ipv4' has no switch, going to default next state
+[14:10:17.246] [bmv2] [T] [thread 7265] [9.0] [cxt 0] Bytes parsed: 34
+[14:10:17.246] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Parser 'parser': end
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Pipeline 'ingress': start
+[14:10:17.247] [bmv2] [T] [thread 7265] [9.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(113) Condition "hdr.ipv4.isValid()" (node_2) is true
+[14:10:17.247] [bmv2] [T] [thread 7265] [9.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(114) Condition "standard_metadata.ingress_port > 0 && standard_metadata.ingress_port < 4" (node_3) is true
+[14:10:17.247] [bmv2] [T] [thread 7265] [9.0] [cxt 0] Applying table 'MyIngress.hhd_threshold'
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Looking up key:
+* hdr.ipv4.srcAddr    : 0a000001
+
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Table 'MyIngress.hhd_threshold': miss
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Action entry is MyIngress.drop - 
+[14:10:17.247] [bmv2] [T] [thread 7265] [9.0] [cxt 0] Action MyIngress.drop
+[14:10:17.247] [bmv2] [T] [thread 7265] [9.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_2/04-HHDv1/hdd_v1.p4(90) Primitive mark_to_drop(standard_metadata)
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Pipeline 'ingress': end
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Egress port is 511
+[14:10:17.247] [bmv2] [D] [thread 7265] [9.0] [cxt 0] Dropping packet at the end of ingress

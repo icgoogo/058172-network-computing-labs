@@ -1,0 +1,206 @@
+Warning: you requested the nanomsg event logger, but bmv2 was compiled without -DBMELOG, and the event logger cannot be activated
+Calling target program-options parser
+[10:53:45.547] [bmv2] [D] [thread 14681] Set default default entry for table 'MyIngress.vlan_table': NoAction - 
+[10:53:45.547] [bmv2] [D] [thread 14681] Set default default entry for table 'tbl_forward': MyIngress.forward - 
+[10:53:45.547] [bmv2] [D] [thread 14681] Set default default entry for table 'tbl_drop': MyIngress.drop - 
+[10:53:45.548] [bmv2] [D] [thread 14681] Set default default entry for table 'tbl_drop_0': MyIngress.drop - 
+[10:53:45.548] [bmv2] [D] [thread 14681] Set default default entry for table 'MyIngress.port_to_vlan': MyIngress.drop - 
+[10:53:45.548] [bmv2] [D] [thread 14681] Set default default entry for table 'tbl_vlan_handler137': vlan_handler137 - 
+Adding interface s1-eth1 as port 1
+[10:53:45.551] [bmv2] [D] [thread 14681] Adding interface s1-eth1 as port 1
+Adding interface s1-eth2 as port 2
+[10:53:45.576] [bmv2] [D] [thread 14681] Adding interface s1-eth2 as port 2
+Adding interface s1-eth3 as port 3
+[10:53:45.593] [bmv2] [D] [thread 14681] Adding interface s1-eth3 as port 3
+Adding interface s1-eth4 as port 4
+[10:53:45.594] [bmv2] [D] [thread 14681] Adding interface s1-eth4 as port 4
+Server listening on 0.0.0.0:9559
+[10:53:45.616] [bmv2] [I] [thread 14681] Starting Thrift server on port 9090
+[10:53:45.617] [bmv2] [I] [thread 14681] Thrift server was started
+[10:53:46.300] [bmv2] [D] [thread 14764] Set default default entry for table 'MyIngress.vlan_table': NoAction - 
+[10:53:46.300] [bmv2] [D] [thread 14764] Set default default entry for table 'tbl_forward': MyIngress.forward - 
+[10:53:46.300] [bmv2] [D] [thread 14764] Set default default entry for table 'tbl_drop': MyIngress.drop - 
+[10:53:46.300] [bmv2] [D] [thread 14764] Set default default entry for table 'tbl_drop_0': MyIngress.drop - 
+[10:53:46.301] [bmv2] [D] [thread 14764] Set default default entry for table 'MyIngress.port_to_vlan': MyIngress.drop - 
+[10:53:46.301] [bmv2] [D] [thread 14764] Set default default entry for table 'tbl_vlan_handler137': vlan_handler137 - 
+[10:53:46.305] [bmv2] [D] [thread 14764] simple_switch target has been notified of a config swap
+[10:53:46.313] [bmv2] [D] [thread 14772] Entry 0 added to table 'MyIngress.vlan_table'
+[10:53:46.313] [bmv2] [D] [thread 14772] Dumping entry 0
+Match key:
+* hdr.vlan.vid        : EXACT     0002
+Action entry: MyIngress.forward - 2,
+
+[10:53:46.315] [bmv2] [D] [thread 14764] Entry 1 added to table 'MyIngress.vlan_table'
+[10:53:46.316] [bmv2] [D] [thread 14764] Dumping entry 1
+Match key:
+* hdr.vlan.vid        : EXACT     0014
+Action entry: MyIngress.forward - 2,
+
+[10:53:46.318] [bmv2] [D] [thread 14772] Entry 2 added to table 'MyIngress.vlan_table'
+[10:53:46.318] [bmv2] [D] [thread 14772] Dumping entry 2
+Match key:
+* hdr.vlan.vid        : EXACT     0003
+Action entry: MyIngress.forward - 3,
+
+[10:53:46.321] [bmv2] [D] [thread 14764] Entry 3 added to table 'MyIngress.vlan_table'
+[10:53:46.321] [bmv2] [D] [thread 14764] Dumping entry 3
+Match key:
+* hdr.vlan.vid        : EXACT     001e
+Action entry: MyIngress.forward - 3,
+
+[10:53:46.323] [bmv2] [D] [thread 14772] Entry 4 added to table 'MyIngress.vlan_table'
+[10:53:46.323] [bmv2] [D] [thread 14772] Dumping entry 4
+Match key:
+* hdr.vlan.vid        : EXACT     0004
+Action entry: MyIngress.forward - 4,
+
+[10:53:46.326] [bmv2] [D] [thread 14764] Entry 5 added to table 'MyIngress.vlan_table'
+[10:53:46.327] [bmv2] [D] [thread 14764] Dumping entry 5
+Match key:
+* hdr.vlan.vid        : EXACT     0028
+Action entry: MyIngress.forward - 4,
+
+[10:53:46.331] [bmv2] [D] [thread 14764] Entry 0 added to table 'MyIngress.port_to_vlan'
+[10:53:46.332] [bmv2] [D] [thread 14764] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.add_vlan_hdr - 2,
+
+[10:53:46.334] [bmv2] [D] [thread 14772] Entry 1 added to table 'MyIngress.port_to_vlan'
+[10:53:46.335] [bmv2] [D] [thread 14772] Dumping entry 1
+Match key:
+* standard_metadata.ingress_port: EXACT     0003
+Action entry: MyIngress.add_vlan_hdr - 3,
+
+[10:53:46.337] [bmv2] [D] [thread 14764] Entry 2 added to table 'MyIngress.port_to_vlan'
+[10:53:46.337] [bmv2] [D] [thread 14764] Dumping entry 2
+Match key:
+* standard_metadata.ingress_port: EXACT     0004
+Action entry: MyIngress.add_vlan_hdr - 4,
+
+[10:54:56.193] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Processing packet received on port 1
+[10:54:56.193] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser 'parser': start
+[10:54:56.193] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[10:54:56.193] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Extracting header 'ethernet'
+[10:54:56.193] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser state 'start': key is 8100
+[10:54:56.193] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Bytes parsed: 14
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser 'parser' entering state 'parseVlan'
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Extracting header 'vlan'
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser state 'parseVlan' has no switch, going to default next state
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Bytes parsed: 18
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Parser 'parser': end
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Pipeline 'ingress': start
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(121) Condition "hdr.vlan.isValid()" (node_2) is true
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(122) Condition "standard_metadata.ingress_port == 1" (node_3) is true
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Applying table 'MyIngress.vlan_table'
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Looking up key:
+* hdr.vlan.vid        : 000a
+
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Table 'MyIngress.vlan_table': miss
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Action entry is NoAction - 
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Action NoAction
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Applying table 'tbl_forward'
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Looking up key:
+
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Table 'tbl_forward': miss
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Action entry is MyIngress.forward - 
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] Action MyIngress.forward
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(80) Primitive standard_metadata.egress_spec = port
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(83) Primitive hdr.ethernet.etherType = hdr.vlan.etherType
+[10:54:56.194] [bmv2] [T] [thread 14690] [0.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(84) Primitive hdr.vlan.setInvalid()
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Pipeline 'ingress': end
+[10:54:56.194] [bmv2] [D] [thread 14690] [0.0] [cxt 0] Egress port is 2
+[10:54:56.194] [bmv2] [D] [thread 14693] [0.0] [cxt 0] Pipeline 'egress': start
+[10:54:56.194] [bmv2] [D] [thread 14693] [0.0] [cxt 0] Pipeline 'egress': end
+[10:54:56.194] [bmv2] [D] [thread 14693] [0.0] [cxt 0] Deparser 'deparser': start
+[10:54:56.194] [bmv2] [D] [thread 14693] [0.0] [cxt 0] Deparsing header 'ethernet'
+[10:54:56.194] [bmv2] [D] [thread 14693] [0.0] [cxt 0] Deparser 'deparser': end
+[10:54:56.194] [bmv2] [D] [thread 14695] [0.0] [cxt 0] Transmitting packet of size 42 out of port 2
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Processing packet received on port 2
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Parser 'parser': start
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Parser 'parser' entering state 'start'
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Extracting header 'ethernet'
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Parser state 'start': key is 0800
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] Bytes parsed: 14
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Parser 'parser': end
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Pipeline 'ingress': start
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(121) Condition "hdr.vlan.isValid()" (node_2) is false
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(133) Condition "standard_metadata.ingress_port == 1" (node_7) is false
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] Applying table 'MyIngress.port_to_vlan'
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0002
+
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Table 'MyIngress.port_to_vlan': hit with handle 0
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.add_vlan_hdr - 2,
+
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Action entry is MyIngress.add_vlan_hdr - 2,
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] Action MyIngress.add_vlan_hdr
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(89) Primitive hdr.vlan.setValid()
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(90) Primitive hdr.vlan.pri = 0
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(91) Primitive hdr.vlan.dei = 0
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(92) Primitive hdr.vlan.vid = vid
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(93) Primitive hdr.vlan.etherType = hdr.ethernet.etherType
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(8) Primitive 0x8100; ...
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] Applying table 'tbl_vlan_handler137'
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Looking up key:
+
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Table 'tbl_vlan_handler137': miss
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Action entry is vlan_handler137 - 
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] Action vlan_handler137
+[10:54:56.195] [bmv2] [T] [thread 14690] [1.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(137) Primitive standard_metadata.egress_spec = 1
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Pipeline 'ingress': end
+[10:54:56.195] [bmv2] [D] [thread 14690] [1.0] [cxt 0] Egress port is 1
+[10:54:56.195] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Pipeline 'egress': start
+[10:54:56.196] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Pipeline 'egress': end
+[10:54:56.196] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Deparser 'deparser': start
+[10:54:56.196] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Deparsing header 'ethernet'
+[10:54:56.196] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Deparsing header 'vlan'
+[10:54:56.196] [bmv2] [D] [thread 14692] [1.0] [cxt 0] Deparser 'deparser': end
+[10:54:56.196] [bmv2] [D] [thread 14695] [1.0] [cxt 0] Transmitting packet of size 74 out of port 1
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Processing packet received on port 2
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Parser 'parser': start
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Parser 'parser' entering state 'start'
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Extracting header 'ethernet'
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Parser state 'start': key is 0800
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] Bytes parsed: 14
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Parser 'parser': end
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Pipeline 'ingress': start
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(121) Condition "hdr.vlan.isValid()" (node_2) is false
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(133) Condition "standard_metadata.ingress_port == 1" (node_7) is false
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] Applying table 'MyIngress.port_to_vlan'
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Looking up key:
+* standard_metadata.ingress_port: 0002
+
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Table 'MyIngress.port_to_vlan': hit with handle 0
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.ingress_port: EXACT     0002
+Action entry: MyIngress.add_vlan_hdr - 2,
+
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Action entry is MyIngress.add_vlan_hdr - 2,
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] Action MyIngress.add_vlan_hdr
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(89) Primitive hdr.vlan.setValid()
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(90) Primitive hdr.vlan.pri = 0
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(91) Primitive hdr.vlan.dei = 0
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(92) Primitive hdr.vlan.vid = vid
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(93) Primitive hdr.vlan.etherType = hdr.ethernet.etherType
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(8) Primitive 0x8100; ...
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] Applying table 'tbl_vlan_handler137'
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Looking up key:
+
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Table 'tbl_vlan_handler137': miss
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Action entry is vlan_handler137 - 
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] Action vlan_handler137
+[10:57:45.017] [bmv2] [T] [thread 14690] [2.0] [cxt 0] /home/nc-labs/058172-network-computing-labs/p4-labs/lab_1/03-VLANHandler/vlan_handler.p4(137) Primitive standard_metadata.egress_spec = 1
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Pipeline 'ingress': end
+[10:57:45.017] [bmv2] [D] [thread 14690] [2.0] [cxt 0] Egress port is 1
+[10:57:45.017] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Pipeline 'egress': start
+[10:57:45.017] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Pipeline 'egress': end
+[10:57:45.018] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Deparser 'deparser': start
+[10:57:45.018] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Deparsing header 'ethernet'
+[10:57:45.018] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Deparsing header 'vlan'
+[10:57:45.018] [bmv2] [D] [thread 14692] [2.0] [cxt 0] Deparser 'deparser': end
+[10:57:45.018] [bmv2] [D] [thread 14695] [2.0] [cxt 0] Transmitting packet of size 46 out of port 1

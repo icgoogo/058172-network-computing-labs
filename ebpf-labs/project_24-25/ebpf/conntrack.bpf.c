@@ -27,18 +27,20 @@ SEC("xdp")
 int xdp_conntrack_prog(struct xdp_md *ctx) {
     int rc;
     struct packetHeaders pkt;
+    __builtin_memset(&pkt, 0, sizeof(pkt));
 
     void *data = (void *)(long)ctx->data;
     void *data_end = (void *)(long)ctx->data_end;
 
     bpf_printk("Packet received from interface (ifindex) %d", ctx->ingress_ifindex);
-
     if (parse_packet(data, data_end, &pkt) < 0) {
         bpf_log_debug("Failed to parse packet\n");
         return XDP_DROP;
     }
 
     bpf_log_debug("Packet parsed, now starting the conntrack.\n");
+    bpf_log_debug("initial packet: srcIp: %d, dstIp: %d, l4proto: %d, srcport: %d, dstPort: %d, flags: %d, seqN: 0x%08X, ackN: 0x%08X, connstatus: %d", 
+        pkt.srcIp, pkt.dstIp, pkt.l4proto, pkt.srcPort, pkt.dstPort, pkt.flags, pkt.seqN, pkt.ackN, pkt.connStatus);
 
     struct ct_k key;
     __builtin_memset(&key, 0, sizeof(key));
@@ -85,6 +87,9 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
         }
         value = bpf_map_lookup_elem(&connections, &key);
         if (value != NULL) {
+            bpf_log_debug("state %d iprev %d port rev %d value sequence 0x%08X", value->state, value->ipRev, value->portRev, value->sequence);
+            bpf_log_debug("iprev %d port rev %d", ipRev, portRev);
+
             bpf_spin_lock(&value->lock);
             if ((value->ipRev == ipRev) && (value->portRev == portRev)) {
                 goto TCP_FORWARD;
@@ -97,9 +102,11 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
 
         TCP_FORWARD:;
             if (value->state == SYN_SENT) {
-                if ((pkt.flags & TCPHDR_SYN) != 0 && (pkt.flags | TCPHDR_SYN) == TCPHDR_SYN) {
+                //retries syn
+                if(pkt.flags == TCPHDR_SYN) {
                     value->ttl = timestamp + TCP_SYN_SENT;
                     bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("SYN_SENT FW DIRECTION");
                     goto PASS_ACTION;
                 } else {
                     pkt.connStatus = INVALID;
@@ -114,7 +121,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
 
             if (value->state == SYN_RECV) {
                 if ((pkt.flags & TCPHDR_ACK) != 0 && (pkt.flags | TCPHDR_ACK) == TCPHDR_ACK &&
-                    (pkt.ackN == value->sequence)) {
+                    (pkt.ackN == value->sequence)) {                   
                     value->state = ESTABLISHED;
                     value->ttl = timestamp + TCP_ESTABLISHED;
 
@@ -225,6 +232,8 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                     goto TCP_MISS;
                 } else {
                     bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("masuk sini TIME_WAIT");
+                    bpf_log_debug("connstatus %d", pkt.connStatus);
                     goto PASS_ACTION;
                 }
             }
@@ -237,9 +246,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
 
         TCP_REVERSE:;
             if (value->state == SYN_SENT) {
-                if ((pkt.flags & TCPHDR_ACK) != 0 && (pkt.flags & TCPHDR_SYN) != 0 &&
-                    (pkt.flags | (TCPHDR_SYN | TCPHDR_ACK)) == (TCPHDR_SYN | TCPHDR_ACK) &&
-                    pkt.ackN == value->sequence) {
+                if (pkt.flags == TCPHDR_ACK+TCPHDR_SYN && pkt.ackN == value->sequence + HEX_BE_ONE) {
                     value->state = SYN_RECV;
                     value->ttl = timestamp + TCP_SYN_RECV;
                     value->sequence = pkt.seqN + HEX_BE_ONE;
@@ -252,6 +259,10 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                 }
                 pkt.connStatus = INVALID;
                 bpf_spin_unlock(&value->lock);
+                bpf_log_debug("[REV_DIRECTION] Failed "
+                                  "state from "
+                                  "SYN_SENT to SYN_RECV\n");
+                bpf_log_debug("connstatus %d", pkt.connStatus);
                 goto PASS_ACTION;
             }
 
@@ -263,6 +274,9 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                 }
                 pkt.connStatus = INVALID;
                 bpf_spin_unlock(&value->lock);
+                
+                bpf_log_debug("syn_recv tcp_reverse");
+                bpf_log_debug("connstatus %d", pkt.connStatus);
                 goto PASS_ACTION;
             }
 
@@ -340,8 +354,11 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                     bpf_spin_unlock(&value->lock);
                     goto TCP_MISS;
                 } else {
+                    
                     // Let the packet go, but do not update timers.
                     bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("masuk sini time_wait 2");
+                    bpf_log_debug("connstatus %d", pkt.connStatus);
                     goto PASS_ACTION;
                 }
             }
@@ -373,9 +390,12 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
     }
 
 PASS_ACTION:;
+    int status = pkt.connStatus;
 
+    bpf_log_debug("status after pass_action %d", status);
     struct pkt_md *md;
     __u32 md_key = 0;
+    // get metadata
     md = bpf_map_lookup_elem(&metadata, &md_key);
     if (md == NULL) {
         bpf_log_err("No elements found in metadata map\n");
@@ -384,10 +404,10 @@ PASS_ACTION:;
 
     uint16_t pkt_len = (uint16_t)(data_end - data);
 
+    //increment metadata for valid packets
     __sync_fetch_and_add(&md->cnt, 1);
     __sync_fetch_and_add(&md->bytes_cnt, pkt_len);
-
-    if (pkt.connStatus == INVALID) {
+    if (status == INVALID) {
         bpf_log_err("Connection status is invalid\n");
         goto DROP;
     }

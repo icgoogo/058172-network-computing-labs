@@ -23,6 +23,11 @@
 #include "counting_with_maps.skel.h"
 
 /* TODO 3: Redefine the datarec structure in userspace*/
+struct datarec
+{
+    uint64_t packet_bytes;
+    uint64_t packet_counter;
+};
 
 static int ifindex_iface = 0;
 static __u32 xdp_flags = 0;
@@ -33,12 +38,16 @@ static const char *const usages[] = {
     NULL,
 };
 
-static void cleanup_ifaces() {
+static void cleanup_ifaces()
+{
     __u32 curr_prog_id = 0;
 
-    if (ifindex_iface != 0) {
-        if (!bpf_xdp_query_id(ifindex_iface, xdp_flags, &curr_prog_id)) {
-            if (curr_prog_id) {
+    if (ifindex_iface != 0)
+    {
+        if (!bpf_xdp_query_id(ifindex_iface, xdp_flags, &curr_prog_id))
+        {
+            if (curr_prog_id)
+            {
                 bpf_xdp_detach(ifindex_iface, xdp_flags, NULL);
                 log_trace("Detached XDP program from interface %d", ifindex_iface);
             }
@@ -46,27 +55,49 @@ static void cleanup_ifaces() {
     }
 }
 
-void sigint_handler(int sig_no) {
+void sigint_handler(int sig_no)
+{
     log_debug("Closing program...");
     cleanup_ifaces();
     exit(0);
 }
 
-void poll_stats(struct counting_with_maps_bpf *skel) {
+void poll_stats(struct counting_with_maps_bpf *skel)
+{
     /* TODO 1: get the map file descriptor for the skeleton */
+    const map_fd = bpf_map__fd(skel->maps.xdp_stats_map);
 
-    while(true) {
+    while (true)
+    {
         /* TODO 2: define the value type (struct datarec) */
-        
+        struct datarec rec;
+        int key = 0;
+        int err = 0;
+
         /* TODO 4: get the value of the map for the key 0 */
-        
+        err = bpf_map_lookup_elem(map_fd, &key, &rec);
+        if (err != 0)
+        {
+            log_fatal("error retrieving bpf maps data array");
+            exit(1);
+        }
+
+        if (rec.packet_bytes == 0 && rec.packet_counter == 0)
+        {
+            continue;
+        }
+
         /* TODO 5: print the number of packets received */
+        log_info("the number of packets received: %llu", rec.packet_counter);
         /* TODO 6: print the number of bytes received */
+        log_info("the number of bytes received: %llu", rec.packet_bytes);
+
         sleep(1);
     }
 }
 
-int main(int argc, const char **argv) {
+int main(int argc, const char **argv)
+{
     struct counting_with_maps_bpf *skel = NULL;
     int err;
     const char *iface = NULL;
@@ -80,27 +111,34 @@ int main(int argc, const char **argv) {
 
     struct argparse argparse;
     argparse_init(&argparse, options, usages, 0);
-    argparse_describe(&argparse, "\n[Exercise 1] This software attaches an XDP program to the interface specified in the input parameter", 
-    "\nIf '-p' argument is specified, the interface will be put in promiscuous mode");
+    argparse_describe(&argparse, "\n[Exercise 1] This software attaches an XDP program to the interface specified in the input parameter",
+                      "\nIf '-p' argument is specified, the interface will be put in promiscuous mode");
     argc = argparse_parse(&argparse, argc, argv);
 
-    if (iface != NULL) {
+    if (iface != NULL)
+    {
         log_info("XDP program will be attached to %s interface", iface);
         ifindex_iface = if_nametoindex(iface);
-        if (!ifindex_iface) {
+        if (!ifindex_iface)
+        {
             log_fatal("Error while retrieving the ifindex of %s", iface);
             exit(1);
-        } else {
+        }
+        else
+        {
             log_info("Got ifindex for iface: %s, which is %d", iface, ifindex_iface);
         }
-    } else {
+    }
+    else
+    {
         log_error("Error, you must specify the interface where to attach the XDP program");
         exit(1);
     }
 
     /* Open BPF application */
     skel = counting_with_maps_bpf__open();
-    if (!skel) {
+    if (!skel)
+    {
         log_fatal("Error while opening BPF skeleton");
         exit(1);
     }
@@ -109,7 +147,8 @@ int main(int argc, const char **argv) {
     bpf_program__set_type(skel->progs.xdp_prog_map, BPF_PROG_TYPE_XDP);
 
     /* Load and verify BPF programs */
-    if (counting_with_maps_bpf__load(skel)) {
+    if (counting_with_maps_bpf__load(skel))
+    {
         log_fatal("Error while loading BPF skeleton");
         exit(1);
     }
@@ -118,12 +157,14 @@ int main(int argc, const char **argv) {
     memset(&action, 0, sizeof(action));
     action.sa_handler = &sigint_handler;
 
-    if (sigaction(SIGINT, &action, NULL) == -1) {
+    if (sigaction(SIGINT, &action, NULL) == -1)
+    {
         log_error("sigation failed");
         goto cleanup;
     }
 
-    if (sigaction(SIGTERM, &action, NULL) == -1) {
+    if (sigaction(SIGTERM, &action, NULL) == -1)
+    {
         log_error("sigation failed");
         goto cleanup;
     }
@@ -134,7 +175,8 @@ int main(int argc, const char **argv) {
     /* Attach the XDP program to the interface */
     err = bpf_xdp_attach(ifindex_iface, bpf_program__fd(skel->progs.xdp_prog_map), xdp_flags, NULL);
 
-    if (err) {
+    if (err)
+    {
         log_fatal("Error while attaching the XDP program to the interface");
         goto cleanup;
     }

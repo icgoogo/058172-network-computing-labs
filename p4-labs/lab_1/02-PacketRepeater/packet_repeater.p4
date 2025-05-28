@@ -20,6 +20,10 @@ parser MyParser(packet_in packet,
                 out headers hdr,
                 inout metadata meta,
                 inout standard_metadata_t standard_metadata) {
+
+                    state start{
+                        transition accept;
+                    }
 }
 
 /*************************************************************************
@@ -38,7 +42,25 @@ control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
 control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
-    apply {  }
+    action forward(bit<9> egress_port){
+        standard_metadata.egress_spec = egress_port;
+    }
+
+    table repeater{
+        key = {
+            standard_metadata.ingress_port: exact;
+        }
+        actions = {
+            forward;
+            NoAction;
+        }
+        size = 2;
+        default_action = NoAction;
+    }
+
+    apply { 
+        repeater.apply();
+    }
 }
 
 /*************************************************************************
@@ -65,6 +87,7 @@ control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
 
 control MyDeparser(packet_out packet, in headers hdr) {
     apply {
+        /* deparser not neeeded*/
     }
 }
 
@@ -73,10 +96,10 @@ control MyDeparser(packet_out packet, in headers hdr) {
 *************************************************************************/
 
 V1Switch(
-MyParser(),
-MyVerifyChecksum(),
-MyIngress(),
-MyEgress(),
-MyComputeChecksum(),
-MyDeparser()
+    MyParser(),
+    MyVerifyChecksum(),
+    MyIngress(),
+    MyEgress(),
+    MyComputeChecksum(),
+    MyDeparser()
 ) main;
