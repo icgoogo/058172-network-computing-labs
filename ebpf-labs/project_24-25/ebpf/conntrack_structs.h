@@ -5,6 +5,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
+enum udp_conn_status {
+    UDP_REQUEST = 1,     
+    UDP_ESTABLISHED = 2,    
+    UDP_EXPIRED = 3          
+};
+
 typedef enum {
     NEW,
     ESTABLISHED,
@@ -44,6 +50,7 @@ struct ct_v {
     uint8_t ipRev;
     uint8_t portRev;
     uint32_t sequence;
+    uint8_t hopCount;
     struct bpf_spin_lock lock;
 };
 

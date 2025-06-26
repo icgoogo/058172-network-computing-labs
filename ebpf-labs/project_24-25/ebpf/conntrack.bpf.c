@@ -39,7 +39,10 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
     }
 
     bpf_log_debug("Packet parsed, now starting the conntrack.\n");
-    bpf_log_debug("initial packet: srcIp: %d, dstIp: %d, l4proto: %d, srcport: %d, dstPort: %d, flags: %d, seqN: 0x%08X, ackN: 0x%08X, connstatus: %d", 
+    bpf_log_debug("[START] initial packet: \n"
+                    "srcIp: %d, dstIp: %d, l4proto: %d, \n"
+                    "srcport: %d, dstPort: %d, flags: %d, \n"
+                    "seqN: 0x%08X, ackN: 0x%08X, connstatus: %d [END]", 
         pkt.srcIp, pkt.dstIp, pkt.l4proto, pkt.srcPort, pkt.dstPort, pkt.flags, pkt.seqN, pkt.ackN, pkt.connStatus);
 
     struct ct_k key;
@@ -80,13 +83,83 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
     uint64_t timestamp;
     timestamp = bpf_ktime_get_ns();
 
-    /* == TCP  == */
-    if (pkt.l4proto == IPPROTO_TCP) {
+    /* == UDP  == */
+    if(pkt.l4proto == IPPROTO_UDP){
+        value = bpf_map_lookup_elem(&connections, &key);
+        if (value != NULL) {
+            // Check for flow timeout
+            if (timestamp > value->ttl || value->state == UDP_EXPIRED) {
+                newEntry.state = UDP_REQUEST;
+                newEntry.ttl = timestamp + UDP_NEW_TIMEOUT;
+                newEntry.ipRev = ipRev;
+                newEntry.portRev = portRev;
+                newEntry.hopCount = 1;
+                pkt.connStatus = NEW;
+
+                bpf_log_debug("[UDP] flow expired, resetting\n");
+                bpf_map_update_elem(&connections, &key, &newEntry, BPF_ANY);
+                goto PASS_ACTION;
+            }
+
+            bpf_log_debug("[UDP] initial details: ttl: %d, status: %d, hopCount: %d\n", value->ttl, value->state, value->hopCount);
+            bpf_spin_lock(&value->lock);
+
+            if (value->hopCount >= MAX_UDP_HOPS) {
+                pkt.connStatus = INVALID;
+                bpf_spin_unlock(&value->lock);
+                bpf_map_delete_elem(&connections, &key);
+                bpf_log_err("[UDP]reaches MAX hops, dropping...\n");
+                goto PASS_ACTION;
+            }
+
+            if ((value->ipRev != ipRev) && (value->portRev != portRev) ) {
+                if (value->state == UDP_REQUEST) {
+                        value->state = UDP_ESTABLISHED;
+                } else if (value->state != UDP_ESTABLISHED) {
+                    pkt.connStatus = INVALID;
+                    bpf_spin_unlock(&value->lock);
+                    bpf_log_err("[UDP] suspicious packet in reverse direction, dropping...\n");
+                    goto PASS_ACTION;            
+                }
+            } else if ((value->ipRev == ipRev) && (value->portRev == portRev) && (value->state == UDP_REQUEST || value->state == UDP_ESTABLISHED)) {
+                bpf_spin_unlock(&value->lock);
+                bpf_log_debug("[UDP] packet is still valid\n");
+                bpf_spin_lock(&value->lock);
+            } else { 
+                pkt.connStatus = INVALID;
+                bpf_spin_unlock(&value->lock);
+                bpf_log_err("[UDP] suspicious packet, dropping...\n");
+                goto PASS_ACTION;
+            }
+
+            value->hopCount++;
+            value->ttl = timestamp + UDP_ESTABLISHED_TIMEOUT;
+
+            bpf_spin_unlock(&value->lock);
+            bpf_log_debug("[UDP] flow marked established\n");
+
+            goto PASS_ACTION;
+        } else {
+            // New flow from client: supposed to be request-only
+            newEntry.state = UDP_REQUEST;
+            newEntry.ttl = timestamp + UDP_NEW_TIMEOUT;
+            newEntry.ipRev = ipRev;
+            newEntry.portRev = portRev; 
+            newEntry.hopCount = 1;
+
+            // bpf_spin_unlock(&value->lock);
+            bpf_log_debug("[UDP]New packet detected\n");
+            bpf_map_update_elem(&connections, &key, &newEntry, BPF_ANY);
+            goto PASS_ACTION;
+        }
+    } else if (pkt.l4proto == IPPROTO_TCP) {
+        /* == TCP  == */
         if ((pkt.flags & TCPHDR_RST) != 0) {
             goto PASS_ACTION;
         }
         value = bpf_map_lookup_elem(&connections, &key);
         if (value != NULL) {
+
             bpf_log_debug("state %d iprev %d port rev %d value sequence 0x%08X", value->state, value->ipRev, value->portRev, value->sequence);
             bpf_log_debug("iprev %d port rev %d", ipRev, portRev);
 
@@ -120,8 +193,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
             }
 
             if (value->state == SYN_RECV) {
-                if ((pkt.flags & TCPHDR_ACK) != 0 && (pkt.flags | TCPHDR_ACK) == TCPHDR_ACK &&
-                    (pkt.ackN == value->sequence)) {                   
+                if (pkt.flags == TCPHDR_ACK && (pkt.ackN == value->sequence)) {                   
                     value->state = ESTABLISHED;
                     value->ttl = timestamp + TCP_ESTABLISHED;
 
@@ -146,7 +218,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                 bpf_spin_unlock(&value->lock);
                 bpf_log_debug("Connnection is ESTABLISHED\n");
                 bpf_spin_lock(&value->lock);
-                if ((pkt.flags & TCPHDR_FIN) != 0) {
+                if (pkt.flags == TCPHDR_FIN) {
                     value->state = FIN_WAIT_1;
                     value->ttl = timestamp + TCP_FIN_WAIT;
                     value->sequence = pkt.ackN;
@@ -267,16 +339,18 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
             }
 
             if (value->state == SYN_RECV) {
-                if ((pkt.flags & TCPHDR_ACK) != 0 && (pkt.flags & TCPHDR_SYN) != 0) {
+                if ((pkt.flags & (TCPHDR_SYN | TCPHDR_ACK)) == (TCPHDR_SYN | TCPHDR_ACK)) {
                     value->ttl = timestamp + TCP_SYN_RECV;
                     bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("[REV_DIRECTION]"
+                                  "state "
+                                  "SYN_RECV SYN+ACK retransmission Seq: %x\n",
+                                  value->sequence);
                     goto PASS_ACTION;
                 }
                 pkt.connStatus = INVALID;
                 bpf_spin_unlock(&value->lock);
                 
-                bpf_log_debug("syn_recv tcp_reverse");
-                bpf_log_debug("connstatus %d", pkt.connStatus);
                 goto PASS_ACTION;
             }
 
@@ -284,7 +358,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
                 bpf_spin_unlock(&value->lock);
                 bpf_log_debug("Connnection is ESTABLISHED\n");
                 bpf_spin_lock(&value->lock);
-                if ((pkt.flags & TCPHDR_FIN) != 0) {
+                if (pkt.flags == TCPHDR_FIN) {
                     // Initiating closing sequence
                     value->state = FIN_WAIT_1;
                     value->ttl = timestamp + TCP_FIN_WAIT;
@@ -379,6 +453,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
 
             newEntry.ipRev = ipRev;
             newEntry.portRev = portRev;
+            bpf_log_debug("TCP MISS %d\n", pkt.flags);
 
             bpf_map_update_elem(&connections, &key, &newEntry, BPF_ANY);
             goto PASS_ACTION;

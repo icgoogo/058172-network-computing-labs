@@ -38,6 +38,7 @@
 #define TCPHDR_ACK 0x10
 
 #define HEX_BE_ONE 0x1000000
+#define MAX_UDP_HOPS 4
 
 const volatile struct {
     __u8 log_level;

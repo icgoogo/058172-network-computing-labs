@@ -4,6 +4,11 @@
         "bpf.h": "c",
         "conntrack_if_helper.h": "c",
         "link.h": "c",
-        "conntrack_structs.h": "c"
+        "conntrack_structs.h": "c",
+        "conntrack_parser.h": "c",
+        "stdio.h": "c",
+        "inet.h": "c",
+        "string": "c",
+        "chrono": "c"
     }
 }
