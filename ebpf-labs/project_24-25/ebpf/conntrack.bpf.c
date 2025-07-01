@@ -448,7 +448,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
         }
 
     TCP_MISS:;
-        if (pkt.flags == TCPHDR_SYN) {
+        if ((pkt.flags & TCPHDR_SYN) != 0) {
             newEntry.state = SYN_SENT;
             newEntry.ttl = timestamp + TCP_SYN_SENT;
             newEntry.sequence = pkt.seqN;
