@@ -9,6 +9,12 @@
         "stdio.h": "c",
         "inet.h": "c",
         "string": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "ratio": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }
