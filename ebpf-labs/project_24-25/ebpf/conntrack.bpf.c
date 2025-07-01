@@ -157,6 +157,7 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
         if ((pkt.flags & TCPHDR_RST) != 0) {
             goto PASS_ACTION;
         }
+
         value = bpf_map_lookup_elem(&connections, &key);
         if (value != NULL) {
 
@@ -164,7 +165,10 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
             bpf_log_debug("iprev %d port rev %d", ipRev, portRev);
 
             bpf_spin_lock(&value->lock);
-            if ((value->ipRev == ipRev) && (value->portRev == portRev)) {
+            if (timestamp > value->ttl) {
+                bpf_spin_unlock(&value->lock);
+                goto TCP_MISS;
+            } else if ((value->ipRev == ipRev) && (value->portRev == portRev)) {
                 goto TCP_FORWARD;
             } else if ((value->ipRev != ipRev) && (value->portRev != portRev)) {
                 goto TCP_REVERSE;
@@ -363,13 +367,32 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
 
         TCP_FIN_WAIT_ONE_STATE:;
             bpf_spin_lock(&value->lock);
-            if ((pkt.flags & TCPHDR_ACK) != 0 && pkt.ackN == value->sequence + HEX_BE_ONE) {
-                value->state = FIN_WAIT_2;
-                value->ttl = timestamp + TCP_FIN_WAIT;
+            if ((pkt.flags & TCPHDR_ACK) != 0) {
+                if (pkt.ackN == value->sequence + HEX_BE_ONE) {
+                    value->state = FIN_WAIT_2;
+                    value->ttl = timestamp + TCP_FIN_WAIT;
+                    bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("Changing "
+                                "state from "
+                                "FIN_WAIT_1 to FIN_WAIT_2\n");
+                    goto PASS_ACTION;
+                } else if ((pkt.flags & TCPHDR_FIN) != 0) {
+                    value->state = LAST_ACK;
+                    value->ttl = timestamp + TCP_FIN_WAIT;
+                    value->sequence = pkt.seqN;
+                    bpf_spin_unlock(&value->lock);
+                    bpf_log_debug("Changing "
+                                    "state from "
+                                    "FIN_WAIT_1 to LAST_ACK\n");
+
+                    goto PASS_ACTION;
+                }
+
                 bpf_spin_unlock(&value->lock);
-                bpf_log_debug("Changing "
-                            "state from "
-                            "FIN_WAIT_1 to FIN_WAIT_2\n");
+                bpf_log_debug("Failed FIN or ACK "
+                                "check in "
+                                "FIN_WAIT_1 state. Flags: %x. AckSeq: 0x%08X\n",
+                                pkt.flags, pkt.ackN);
                 goto PASS_ACTION;
             } else {
                 bpf_spin_unlock(&value->lock);
