@@ -155,7 +155,9 @@ int xdp_conntrack_prog(struct xdp_md *ctx) {
     } else if (pkt.l4proto == IPPROTO_TCP) {
         /* == TCP  == */
         if ((pkt.flags & TCPHDR_RST) != 0) {
-            goto PASS_ACTION;
+            bpf_map_delete_elem(&connections, &key);
+            bpf_log_debug("Connection removed from tracking. Dropping...\n");
+            goto DROP; 
         }
 
         value = bpf_map_lookup_elem(&connections, &key);
